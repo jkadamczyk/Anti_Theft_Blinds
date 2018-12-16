@@ -1,7 +1,12 @@
 pwirProj
 =====
 
-An OTP application
+Aplikacja na zajęcia PWIR
+
+Co jest przydatne:
+-----
+* erlang
+* rebar3 -> manager paczek dla erlanga
 
 Build
 -----
