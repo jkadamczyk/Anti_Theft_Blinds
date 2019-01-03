@@ -15,22 +15,16 @@
 %%====================================================================
 
 start(_StartType, _StartArgs) ->
-    {ok, Pid} = pwirProj_sup:start_link(),
-    Routes = [{
-        {"/", pwirProj_root, []}
-    }],
-    Dispatch = cowboy_router:compile(Routes),
-    TransOpts = [ {ip, {0,0,0,0}}, {port, 2938} ],
-    ProtoOpts = #{env => #{dispatch => Dispatch}},
-    {ok, _} = cowboy:start_clear(chicken_poo_poo,
-        TransOpts, ProtoOpts),
-
-    {ok, Pid}.
+    Dispatch = cowboy_router:compile([
+        {'_', [{"/", pwirProj_root, []}]}]),
+    {ok, _} = cowboy:start_clear(http, [{port, 8082}],
+				 #{env => #{dispatch => Dispatch}}),
+    pwirProj_sup:start_link().
 
 %%--------------------------------------------------------------------
-stop(_State) ->
-    ok.
+stop(_State) -> ok.
 
 %%====================================================================
 %% Internal functions
 %%====================================================================
+
