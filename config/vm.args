@@ -1,6 +1,3 @@
--sname pwirProj
-
--setcookie pwirProj_cookie
-
-+K true
-+A30
+-name anti_theft_blinds@127.0.0.1
+-setcookie anti_theft_blinds
+-heart
