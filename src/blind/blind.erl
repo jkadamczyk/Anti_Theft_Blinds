@@ -1,4 +1,4 @@
--module(gate).
+-module(blind).
 -export([init/0]).
 
 % This file hold single gate process logic
