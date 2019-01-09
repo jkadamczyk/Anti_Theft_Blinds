@@ -1,7 +1,7 @@
 PROJECT = anti_theft_blinds
 PROJECT_DESCRIPTION = New project
 PROJECT_VERSION = 0.1.0
-DEPS= cowboy
+DEPS= cowboy jiffy
 DEP_PLUGINS = cowboy
 ERLC_OPTS = +debug_info +warn_export_vars +warn_shadow_vars +warn_obsolete_guard
 

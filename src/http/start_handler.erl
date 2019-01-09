@@ -13,6 +13,7 @@
 init(_, Req, _Opts) -> {ok, Req, #state{}}.
 
 handle(Req, State = #state{}) ->
-    utils:return_json(Req, "{\"hello\": \"erlang\"}").
+    Erlang="Erlang",
+    utils:return_json(Req, jiffy:encode({[{hello, list_to_binary(Erlang)}]})).
 
 terminate(_Reason, _Req, _State) -> ok.

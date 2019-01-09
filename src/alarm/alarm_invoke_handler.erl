@@ -12,7 +12,7 @@ init(_, Req, _Opts) ->
 	{ok, Req, #state{}}.
 
 handle(Req, State=#state{}) ->
-	utils:return_json(Req, "{\"hello\": \"erlang\"}").
+	utils:return_json(Req, <<"{\"hello\": \"erlang\"}">>).
 
 terminate(_Reason, _Req, _State) ->
 	ok.
