@@ -1,7 +1,7 @@
 {application, 'anti_theft_blinds', [
 	{description, "New project"},
 	{vsn, "0.1.0"},
-	{modules, ['alarm_invoke_handler','anti_theft_blinds_app','anti_theft_blinds_sup','blind','close_all_handler','close_blind_handler','defuse_handler','http_listener','open_all_handler','open_blind_handler','start_handler','utils']},
+	{modules, ['alarm','alarm_invoke_handler','anti_theft_blinds_app','anti_theft_blinds_sup','blind','blinds_manager','close_all_handler','close_blind_handler','defuse_handler','http_listener','middleware_cors','open_all_handler','open_blind_handler']},
 	{registered, [anti_theft_blinds_sup]},
 	{applications, [kernel,stdlib,cowboy,jiffy]},
 	{mod, {anti_theft_blinds_app, []}},
