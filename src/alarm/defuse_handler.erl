@@ -11,12 +11,14 @@
 -record(state, {alarm}).
 
 init(_, Req, _Opts = {alarm, Alarm}) ->
+	io:write(Alarm),
     {ok, Req, #state{alarm = Alarm}}.
 
 handle(Req, State = #state{alarm = Alarm}) ->
+	io:write(Alarm),
     Alarm ! {defuse, ok},
     Body = jiffy:encode({[
-		{isAlarmOn, false},
+		{alarm, false},
 		{blindsStatus, [true, true, true, true, true, true]}
 	]}),
     {ok, Req1} = cowboy_req:reply(

@@ -8,15 +8,15 @@
 -record(state, {manager}).
 
 init(_, Req, _Opts={manager, Manager}) ->
+	Manager ! {close_all, ok},
 	{ok, Req, #state{manager = Manager}}.
 
 handle(Req, State=#state{manager = Manager}) ->
-	Manager ! {close_all, ok},
-    Body = jiffy:encode({[{blindsStatus, [true, true, true, true, true, true]}]}),
+    Body = jiffy:encode({[{blindsStatus, [false, false, false, false, false, false]}]}),
     {ok, Req1} = cowboy_req:reply(
 		200,
 		[{<<"content-type">>,<<"application/json">>}],
-		Body, 
+		Body,
 		Req
 	),
     {ok, Req1, State}.

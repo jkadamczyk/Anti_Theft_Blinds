@@ -12,17 +12,17 @@ init(_, Req, _Opts = {manager, Manager}) ->
 
 handle(Req, State = #state{manager = Manager}) ->
 	{Index, Req1} = cowboy_req:binding(blindIndex, Req),
-	Manager ! {open_blind, Index,  ok},
+	Manager ! {open_blind, (list_to_integer(binary_to_list(Index)) + 1),  ok},
 	Body = jiffy:encode({[
 		{blindIndex, Index},
 		{isOpen, true}]}),
-	{ok, Req1} = cowboy_req:reply(
+	{ok, Req2} = cowboy_req:reply(
 		200, 
 		[{<<"content-type">>, <<"application/json">>}], 
 		Body, 
-		Req
+		Req1
 	),
-    {ok, Req1, State}.
+    {ok, Req2, State}.
 
 terminate(_Reason, _Req, _State) ->
 	ok.

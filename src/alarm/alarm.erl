@@ -3,31 +3,32 @@
 -export([init/1]).
 
 init(Manager) ->
-    ets:new(alarm, [set, named_table]),
-    ets:insert(alarm, [{armed, false}]),
-    ets:insert(alarm, [{manager, Manager}]),
+    ets:new(table, [named_table, set]),
+    ets:insert(table, [{armed, false}]),
+    ets:insert(table, [{manager, Manager}]),
     listen().
 
 listen() ->
-    receive
+    io:fwrite("alarm listening"),
+    receive  
       {arm, ok} -> arm(), listen();
       {defuse, ok} -> defuse(), listen();
       {status, Pid, ok} ->
-	  Pid ! {open, get_state(), ok}, listen()
+	    Pid ! {open, get_state(), ok}, listen();
+      _Other -> io:fwrite("Got a message ya know")  
     end.
 
 get_state() ->
-    io:format("state taken"),
-    [{armed, State}] = ets:lookup(alarm, armed), State.
+    io:fwrite("state taken"),
+    [{armed, State}] = ets:lookup(table, armed),
+    State.
 
 arm() ->
-    io:format("alarm armed"),
-    [{manager, Manager}] = ets:lookup(alarm, manager),
+    io:fwrite("alarm armed"),
+    [{manager, Manager}] = ets:lookup(table, manager),
     Manager ! {close_all, ok},
-    ets:insert(alarm, {armed, true}).
+    ets:insert(table, {armed, true}).
 
 defuse() ->
-    io:format("alarm defused"),
-    [{manager, Manager}] = ets:lookup(alarm, manager),
-    Manager ! {open_all, ok},
-    ets:insert(alarm, {armed, false}).
+    io:fwrite("alarm defused"),
+    ets:insert(table, {armed, false}).

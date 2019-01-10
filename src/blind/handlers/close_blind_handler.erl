@@ -12,7 +12,7 @@ init(_, Req, _Opts = {manager, Manager}) ->
 
 handle(Req, State = #state{manager = Manager}) ->
 	{Index, Req1} = cowboy_req:binding(blindIndex, Req),
-	Manager ! {close_blind, Index, ok},
+	Manager ! {close_blind, (list_to_integer(binary_to_list(Index)) + 1), ok},
 	Body = jiffy:encode({[
 		{blindIndex, Index},
 		{isOpen, false}]}),

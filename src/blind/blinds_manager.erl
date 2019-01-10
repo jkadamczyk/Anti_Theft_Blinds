@@ -3,37 +3,43 @@
 -export([init/1]).
 
 init(Blinds) ->
-    ets:new(blinds_manager, [set, named_table]),
-    ets:insert(blinds_manager, {blinds, Blinds}),
+    ets:new(blinds_table, [set, named_table]),
+    ets:insert(blinds_table, {blinds, Blinds}),
+    io:write(Blinds),
     listen().
 
-listen() -> 
+listen() ->
+    io:fwrite("blinds manager listening"),
     receive
         {open_blind, Index, ok} -> open_blind(Index), listen();
         {close_blind, Index, ok} -> close_blind(Index), listen();
-        {open_all, ok} -> open_all(), listen();
-        {close_all, ok} -> close_all(), listen()
+        {open_all, ok} -> io:fwrite("open all"), open_all(), listen();
+        {dupa, ok} -> io:fwrite("dupa"), dupa(), listen();
+        {close_all, ok} -> io:fwrite("close all"), close_all(), listen();
+        Other -> io:write(Other)
     end.
 
 open_blind(Index) -> 
-    io:format("open blind with Index"),
-    [{blinds, Blinds}] = ets:lookup(blinds_manager, blinds),
+    io:fwrite("open blind with Index"),
+    [{blinds, Blinds}] = ets:lookup(blinds_table, blinds),
     Pid = lists:nth(Index, Blinds),
     Pid ! {open, ok}.
 
 open_all() -> 
-    io:format("open All blinds"),
-    [{blinds, Blinds}] = ets:lookup(blinds_manager, blinds),
-    lists:foreach(open_blind, Blinds).
+    io:fwrite("open All blinds"),
+    [{blinds, Blinds}] = ets:lookup(blinds_table, blinds),
+    lists:foreach(fun (Blind) -> Blind ! {open, ok} end, Blinds).
 
 close_blind(Index) ->
-    io:format("close blind with Index"),
-    [{blinds, Blinds}] = ets:lookup(blinds_manager, blinds),
+    io:fwrite("close blind with Index"),
+    [{blinds, Blinds}] = ets:lookup(blinds_table, blinds),
     Pid = lists:nth(Index, Blinds),
     Pid ! {open, ok}.
 
 close_all() ->
-    io:format("close All blinds"),
-    [{blinds, Blinds}] = ets:lookup(blinds_manager, blinds),
-    lists:foreach(close_blind, Blinds).
+    io:fwrite("close All blinds"),
+    [{blinds, Blinds}] = ets:lookup(blinds_table, blinds),
+    lists:foreach(fun (Blind) -> Blind ! {close, ok} end, Blinds).
 
+dupa() ->
+    io:fwrite("dupa").

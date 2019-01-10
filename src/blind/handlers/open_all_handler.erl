@@ -11,6 +11,7 @@ init(_, Req, _Opts={manager, Manager}) ->
 	{ok, Req, #state{manager = Manager}}.
 
 handle(Req, State=#state{manager = Manager}) ->
+	Manager ! {dupa, ok},
 	Manager ! {close_all, ok},
     Body = jiffy:encode({[{blindsStatus, [true, true, true, true, true, true]}]}),
     {ok, Req1} = cowboy_req:reply(
