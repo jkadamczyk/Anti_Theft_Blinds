@@ -14,7 +14,6 @@ listen() ->
         {open_blind, Index, ok} -> open_blind(Index), listen();
         {close_blind, Index, ok} -> close_blind(Index), listen();
         {open_all, ok} -> io:fwrite("open all"), open_all(), listen();
-        {dupa, ok} -> io:fwrite("dupa"), dupa(), listen();
         {close_all, ok} -> io:fwrite("close all"), close_all(), listen();
         Other -> io:write(Other)
     end.
@@ -40,6 +39,3 @@ close_all() ->
     io:fwrite("close All blinds"),
     [{blinds, Blinds}] = ets:lookup(blinds_table, blinds),
     lists:foreach(fun (Blind) -> Blind ! {close, ok} end, Blinds).
-
-dupa() ->
-    io:fwrite("dupa").
